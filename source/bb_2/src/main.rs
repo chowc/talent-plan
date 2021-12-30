@@ -48,7 +48,7 @@ fn serde_to_v8_json() {
     }
     f.flush();
     let mut rf = File::open("serde.json.v8").expect("open file fail");
-    for i in 0..10000 {
+    loop {
         let mut size_buffer = vec![0u8; 8];
         match rf.read_exact(&mut size_buffer) {
             Ok(_) => {},
@@ -69,7 +69,7 @@ fn serde_to_v8_json() {
             Err(e) => panic!("Invalid UTF-8 sequence: {}", e),
         };
         let new_move: Move = serde_json::from_str(s).expect("json from_slice fail");
-        println!("new_move i {}: {:?}", i, new_move);
+        println!("new_move i {:?}", new_move);
     }
 
     // let b: Move = serde_json::from_str(String::from_utf8(content_buffer.to_vec())).expect("serde from_string fail");
